@@ -42,7 +42,7 @@ W0, W1  = initialize()
 #W0 = np.loadtxt('W0.txt').reshape((3, 4))
 #W1 = np.loadtxt('W1.txt').reshape((4, 1))
 
-for i in range(600):
+for i in range(60000):
 
     l0 = X
     l1 = tanh(np.dot(l0, W0))
