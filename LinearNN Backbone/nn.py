@@ -36,13 +36,13 @@ num_iter = []
 #np.random.seed(1)
 
 #if first run/reset weights
-W0, W1  = initialize()
+#W0, W1  = initialize()
 
 #if continue using weights from previous iterations
-#W0 = np.loadtxt('W0.txt').reshape((3, 4))
-#W1 = np.loadtxt('W1.txt').reshape((4, 1))
+W0 = np.loadtxt('W0.txt').reshape((3, 5))
+W1 = np.loadtxt('W1.txt').reshape((5, 1))
 
-for i in range(60000):
+for i in range(600000000):
 
     l0 = X
     l1 = tanh(np.dot(l0, W0))
