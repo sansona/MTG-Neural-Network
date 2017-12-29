@@ -37,13 +37,8 @@ for i in range(train_vec_raw.size):
     else:
         train_vec.append(train_vec_raw[i])
 
-'''
-print ('This is the training vector\n')
-print(train_vec)
-print ('This is the winners vector\n')
-print(winners)
-'''
-print ('The number of elements in the raw data set is ' + str(len(train_vec_raw)) + '. The number of elements in the training vector are ' + str(len(train_vec)) + '. The number of elements in the winners vector is ' + str(len(winners)) + '.\n')
+
+#print ('The number of elements in the raw data set is ' + str(len(train_vec_raw)) + '. The number of elements in the training vector are ' + str(len(train_vec)) + '. The number of elements in the winners vector is ' + str(len(winners)) + '.\n')
 
 
 #sets each element of train_vec equal to the corresponding stats from values
@@ -57,8 +52,11 @@ for i in range(len(train_vec)):
 vectorized_parameters = [float(n) for n in list(itertools.chain.from_iterable(
     list(itertools.chain.from_iterable(train_vec))))]
 
-#print (vectorized_parameters)
-#print (len(vectorized_parameters))
+#separates total vector into 4 lists of parameters corresponded to each deck
+#deckX_param are input vectors of NN
+length_param = int(len(vectorized_parameters)/4)
+deck1_param = vectorized_parameters[0:length_param]
+deck2_param = vectorized_parameters[length_param:2*length_param]
+deck3_param = vectorized_parameters[2*length_param:3*length_param]
+deck4_param = vectorized_parameters[3*length_param:4*length_param]
 
-#need to find way to remove first element (name of deck) and convert all to ints
-#also want to convert this to a generalized function that operates based off the .csv-s loaded into the method name
