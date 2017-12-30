@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 def input_param(DeckParameters, TrainingData):
+    #function for returning vectors of deck parameters & winners vector given .csv of parameters & match history data
     #loads parameters
     df = pd.read_csv(str(DeckParameters)+'.csv', header=None)
 
