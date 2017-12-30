@@ -38,7 +38,9 @@ def input_param(DeckParameters, TrainingData):
             winners.append(train_vec_raw[i])
         else:
             train_vec.append(train_vec_raw[i])
-
+    
+    #save train_vec prior to deletions in newlist decklists, used to call back to deck names
+    decklists = train_vec_raw
 
     #print ('The number of elements in the raw data set is ' + str(len(train_vec_raw)) + '. The number of elements in the training vecto    r are ' + str(len(train_vec)) + '. The number of elements in the winners vector is ' + str(len(winners)) + '.\n')
 
@@ -62,6 +64,6 @@ def input_param(DeckParameters, TrainingData):
     deck3_param = vectorized_parameters[2*length_param:3*length_param]
     deck4_param = vectorized_parameters[3*length_param:4*length_param]
 
-    return deck1_param, deck2_param, deck3_param, deck4_param, winners
+    return deck1_param, deck2_param, deck3_param, deck4_param, winners, decklists
 
     #need to find way of creating n lists and creating decki_param for each list to accomodate for growing dataset

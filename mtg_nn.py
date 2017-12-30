@@ -7,7 +7,7 @@ layer0_nodes = 10
 layer1_nodes = 10
 output_nodes = 3
 #random test parameters, need to vectorize
-x1, x2, x3, x4, win = input_param('DeckParameters', 'TrainingData3')
+x1, x2, x3, x4, win, decks = input_param('DeckParameters', 'TrainingData3')
 
 #initializes weight matrices - reshape to ensure compliance
 w0, w1, w2 = initialize(x1, layer1_nodes, output_nodes)
@@ -27,4 +27,8 @@ a2 = tanh(np.dot(w1, a1))
 #activation function for output layer
 a3 = sigmoid(np.dot(w2, a2))
 print (a3)
+print ('The winner is predicted to be: ' + str(decks[list(a3).index(max(a3))]))
 
+print ('The actual winner of this match was: ' + str(win[0]))
+
+print (win)
