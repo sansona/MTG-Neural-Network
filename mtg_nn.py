@@ -3,14 +3,28 @@ from param_vec import input_param
 from weights import initialize
 from activations import sigmoid, tanh
 
+layer0_nodes = 10
+layer1_nodes = 10
+output_nodes = 3
 #random test parameters, need to vectorize
 x1, x2, x3, x4, win = input_param('DeckParameters', 'TrainingData3')
 
-#first layer of NN, receiving input vector
-w0 = (initialize(x1)).reshape(10, int(len(x1)))
-#print (w0)
+#initializes weight matrices - reshape to ensure compliance
+w0, w1, w2 = initialize(x1, layer1_nodes, output_nodes)
+w0 = w0.reshape(layer0_nodes, int(len(x1)))
+w1 = w1.reshape(layer1_nodes, layer1_nodes) 
+w2 = w2.reshape(output_nodes, layer1_nodes)
 
 #converts x1 input to matrix 
 l0 = np.array(x1, dtype=np.float128).reshape(len(x1), 1)
+
 #transpose & activation functions corresponding to layer 1
-l1 = tanh(np.dot(w0, l0))
+a1 = tanh(np.dot(w0, l0))
+
+#activation function for layer 2
+a2 = tanh(np.dot(w1, a1))
+
+#activation function for output layer
+a3 = sigmoid(np.dot(w2, a2))
+print (a3)
+
