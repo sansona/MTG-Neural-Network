@@ -27,17 +27,17 @@ def input_param(DeckParameters, TrainingData):
     train_mat = training.as_matrix()
     train_vec_raw = train_mat.ravel()
 
-    #initialize list of classes (winners) and training examples. Every 3 examples in train_vec correspond to 1 winner in winners
-    winners = []
+    #initialize vector of training examples that will eventually be fed into the nn
     train_vec = []
 
     #separates train_vec_raw into list of input data (train_vec) and winners (classif)
     for i in range(train_vec_raw.size):
         #%4 == 3 due to intiial formatting of match data - every 4th point corresponds to winner
-        if i%4 == 3:
-            winners.append(train_vec_raw[i])
-        else:
+        if i%4 != 3:
+            #winners.append(train_vec_raw[i])
             train_vec.append(train_vec_raw[i])
+        #else:
+            #train_vec.append(train_vec_raw[i])
     
     #save train_vec prior to deletions in newlist decklists, used to call back to deck names
     decklists = train_vec_raw
@@ -56,6 +56,22 @@ def input_param(DeckParameters, TrainingData):
     vectorized_parameters = [float(n) for n in list(itertools.chain.from_iterable(
         list(itertools.chain.from_iterable(train_vec))))]
 
+
+    #initialize list of classes (winners) and reshapes to a more usable format (1s corresponding to the winner & 0s otherwise)
+    winners = np.asarray(train_vec_raw)
+    winners = winners.reshape(4,4)
+
+    #substitutes winners matrix w/ 1s for position of winning deck and 0s for others
+    for match in range(len(winners)):
+        for deck in range(len(winners[0])):
+            if winners[match][deck] == winners[match][len(winners[match]) - 1]:
+                winners[match][deck] = 1
+                winners[match][len(winners[match]) - 1] = 2
+            else:
+                winners[match][deck] = 0
+
+    winners = np.delete(winners, [3], axis=1)
+
     #separates total vector into 4 lists of parameters corresponded to each deck
     #deckX_param are input vectors of NN
     length_param = int(len(vectorized_parameters)/4)
@@ -64,6 +80,6 @@ def input_param(DeckParameters, TrainingData):
     deck3_param = vectorized_parameters[2*length_param:3*length_param]
     deck4_param = vectorized_parameters[3*length_param:4*length_param]
 
-    return deck1_param, deck2_param, deck3_param, deck4_param, winners, decklists
+    return deck1_param, deck2_param, deck3_param, deck4_param, winners, train_mat
 
     #need to find way of creating n lists and creating decki_param for each list to accomodate for growing dataset
