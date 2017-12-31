@@ -27,10 +27,15 @@ a2 = tanh(np.dot(w1, a1))
 
 #activation function for output layer
 a3 = sigmoid(np.dot(w2, a2))
-print (a3)
+
 #index of where in win a 1 shows up for the corresponding match
 win_index = list(win[0]).index(1)
 
 print ('The winner is predicted to be: ' + str(decklist[0][list(a3).index(max(a3))]))
 print ('The actual winner of this match was: ' + str(decklist[0][win_index]))
+
+#calculate error corresponding to output layer
+win_0T = np.transpose([win[0]])
+l3_error = win_0T - a3
+
 
