@@ -19,9 +19,12 @@ def hidden_layers(w1_rowsize):
     return mat1
 '''
 
-def update_weights(weight0, weight1, loss0, loss1, loss2D, loss1D):
+def update_weights(weight0, weight1, weight2,
+        loss0, loss1, loss2, loss1D, loss2D, loss3D):
     #updates weights with loss
-    weight1 += loss1.T.dot(loss2D)
-    weight0 += loss0.T.dot(loss1D)
-                                    
-    return weight0, weight1
+    weight0 += (np.dot(loss1D, loss0.T))[np.dot(loss1D, loss0.T) != 0].reshape(w0_rowsize, 1).astype(float)
+    #weight0 += loss0.T.dot(loss1D)
+    weight1 += (np.dot(loss2D, loss1.T)).astype(float)
+    weight2 += (np.dot(loss3D, loss2.T)).astype(float)
+
+    return weight0, weight1, weight2

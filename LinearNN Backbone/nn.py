@@ -42,7 +42,7 @@ num_iter = []
 W0 = np.loadtxt('W0.txt').reshape((3, 5))
 W1 = np.loadtxt('W1.txt').reshape((5, 1))
 
-for i in range(600000000):
+for i in range(6000):
 
     l0 = X
     l1 = tanh(np.dot(l0, W0))
