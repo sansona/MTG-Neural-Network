@@ -68,5 +68,5 @@ def input_param(DeckParameters, TrainingData, param_segment, number_training_exa
     elif param_segment > 0:
         deck_param = vectorized_parameters[i*deck_param_size : (i+1)*deck_param_size]
 
-    return deck_param, winners, train_mat
+    return deck_param, winners, train_mat, values, train_vec
 
