@@ -6,11 +6,11 @@ from activations import sigmoid, tanh
 layer0_nodes = 10
 layer1_nodes = 10
 output_nodes = 3
-#random test parameters, need to vectorize
+#random test parameters, need to vectorize - input .csv file names w/o .csv extension
 x1, x2, x3, x4, win, decklist = input_param('DeckParameters', 'TrainingData3')
 
 #NOTE: this only works for match x1 as of now - have to scale up to iterate through all training data
-'''
+
 #initializes weight matrices - reshape to ensure compliance
 w0, w1, w2 = initialize(x1, layer1_nodes, output_nodes)
 w0 = w0.reshape(layer0_nodes, int(len(x1)))
@@ -18,17 +18,18 @@ w1 = w1.reshape(layer1_nodes, layer1_nodes)
 w2 = w2.reshape(output_nodes, layer1_nodes)
 '''
 
+
 #loads previous weight matrices - use if not initializing weights
 w0 = np.loadtxt('w0.txt')
 w1 = np.loadtxt('w1.txt')
 w2 = np.loadtxt('w2.txt')
+'''
 
-
-#functional albeit unelegant iterative
+#functional albeit unelegant iterative. First loop iterates through all match data examples, second loop is a training loop (updating weights every loop)
 deck = -1
 for train_match in [x1, x2, x3, x4]:
     deck += 1
-    for i in range(100):
+    for i in range(10000):
         #converts x1 input to matrix 
         l0 = np.array(train_match, dtype=np.float128).reshape(len(x1), 1)
 
@@ -60,11 +61,11 @@ for train_match in [x1, x2, x3, x4]:
         l1_error = np.dot(w1.T, l2D)
         l1D = l1_error*tanh(a1, deriv=True)
     
-        ''' 
+         
         #if want to view error decreasing through iterations
         if (i % 1000) == 0:
             print ("Error: " + str(np.mean(np.abs(l3_error))))
-        '''
+        
 
         #print (np.dot(l1D, win_0T.T))
         #updating weights

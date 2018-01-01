@@ -7,17 +7,9 @@ def input_param(DeckParameters, TrainingData):
     #loads parameters
     df = pd.read_csv(str(DeckParameters)+'.csv', header=None)
 
-    #strips first row corresponding to categories
+    #strips first row corresponding to commander names, which are not directly used
     df = df.drop(df.index[0])
     values = df.values
-
-    #df = df.drop('Commander', 1)
-
-    #database as matrix
-    #df_matrix = df.as_matrix()
-    #unravelled matrix
-    #df_unravelled = df_matrix.ravel().reshape((df_matrix.shape[0]*df_matrix.shape[1],1))
-
 
     #load raw training data
     training = pd.read_csv(str(TrainingData)+ '.csv')
@@ -27,25 +19,21 @@ def input_param(DeckParameters, TrainingData):
     train_mat = training.as_matrix()
     train_vec_raw = train_mat.ravel()
 
-    #initialize vector of training examples that will eventually be fed into the nn
     train_vec = []
 
     #separates train_vec_raw into list of input data (train_vec) and winners (classif)
     for i in range(train_vec_raw.size):
         #%4 == 3 due to intiial formatting of match data - every 4th point corresponds to winner
         if i%4 != 3:
-            #winners.append(train_vec_raw[i])
             train_vec.append(train_vec_raw[i])
-        #else:
-            #train_vec.append(train_vec_raw[i])
     
     #save train_vec prior to deletions in newlist decklists, used to call back to deck names
     decklists = train_vec_raw
 
-    #print ('The number of elements in the raw data set is ' + str(len(train_vec_raw)) + '. The number of elements in the training vecto    r are ' + str(len(train_vec)) + '. The number of elements in the winners vector is ' + str(len(winners)) + '.\n')
+    #print ('The number of elements in the raw data set is ' + str(len(train_vec_raw)) + '. The number of elements in the training vecto   r are ' + str(len(train_vec)) + '. The number of elements in the winners vector is ' + str(len(winners)) + '.\n')
 
 
-    #sets each element of train_vec equal to the corresponding stats from values
+    #sets each element of train_vec equal to the corresponding stats from values - done this way to parameterize deck names 
     for i in range(len(train_vec)):
         #substitutes commander name with corresponding parameters
         train_vec[i] = (values[values[:, 0] == str(train_vec[i])]).tolist()
@@ -57,7 +45,7 @@ def input_param(DeckParameters, TrainingData):
         list(itertools.chain.from_iterable(train_vec))))]
 
 
-    #initialize list of classes (winners) and reshapes to a more usable format (1s corresponding to the winner & 0s otherwise)
+    #initialize list of classes (winners) and reshapes to a more usable format (1s corresponding to the winner & 0s otherwise) so that can have a vectorized solution vector 
     winners = np.asarray(train_vec_raw)
     winners = winners.reshape(4,4)
 
@@ -82,4 +70,3 @@ def input_param(DeckParameters, TrainingData):
 
     return deck1_param, deck2_param, deck3_param, deck4_param, winners, train_mat
 
-    #need to find way of creating n lists and creating decki_param for each list to accomodate for growing dataset
