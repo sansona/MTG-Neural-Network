@@ -4,17 +4,18 @@ from param_vec import input_param
 from weights import initialize, update_weights
 from activations import sigmoid, tanh
 
-#change this when re-training with different dataset
+#change these when re-training with different datasets
 number_training_examples = 9
 TrainingData = 'TrainingTest'
 
+#can be scaled up/down if desired
 layer0_nodes = 10
 layer1_nodes = 10
 output_nodes = 3
 number_features = 7
 
 def neural_network(test = False):
-    #trains network if test == False, runs nn on test match if test == True
+    #trains network if test == False, runs nn on test data if test == True
     if (test == True):
         #weight matrices must be initialized first before loaded
         w0_test = np.loadtxt('w0.txt')
@@ -28,9 +29,6 @@ def neural_network(test = False):
         train_deck2 = str(input('\nEnter the name of the second deck: \n'))
         train_deck3 = str(input('\nEnter the name of the third deck: \n'))
         
-        #test_decks_name = [train_deck1, train_deck2, train_deck3]
-        #test_decks = test_decks_name
-
         test_decks = [train_deck1, train_deck2, train_deck3]
         #substitutes commander name with corresponding parameters - to parameterize deck data
         for i in range(len(test_decks)):
@@ -45,6 +43,7 @@ def neural_network(test = False):
         x_test_deck2 = x_test[number_features:2*number_features]
         x_test_deck3 = x_test[2*number_features:3*number_features]
 
+        #sends data through nn
         maxValue = 0
         for deck_test in [x_test_deck1, x_test_deck2, x_test_deck3]:
             l0_test = np.array(deck_test, dtype=np.float128).reshape(len(deck_test), 1)
@@ -53,7 +52,7 @@ def neural_network(test = False):
             a3_test = sigmoid(np.dot(w2_test, a2_test))
             deck_test.append(max(a3_test)) #to compare maximum a3_test values
             
-            #saves a3_test value and name of predicted deck
+            #saves a3_test value and name of predicted deck for display later
             if deck_test[-1] > maxValue:
                 maxValue = deck_test[-1]
                 best_deck_index = [x_test_deck1, x_test_deck2, x_test_deck3].index(deck_test)
@@ -65,7 +64,8 @@ def neural_network(test = False):
                 str(maxValue))
 
 
-    else:
+    elif (test == False):
+        #for training nn - run when initialized with test=False 
         #initializes weight matrices - reshape to ensure compliance
         x, win, decklist, values, train_vec = input_param('DeckParameters', TrainingData, 0, number_training_examples)
         '''
@@ -81,7 +81,6 @@ def neural_network(test = False):
 
         #functional albeit unelegant iterative. First loop iterates through number of matches, second loop is a training loop (updating weights every loop)
         deck = -1
-
         for train_match in range(number_training_examples):
             deck += 1
             for i in range(100):
