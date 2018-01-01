@@ -9,6 +9,7 @@ output_nodes = 3
 #random test parameters, need to vectorize - input .csv file names w/o .csv extension
 x1, x2, x3, x4, win, decklist = input_param('DeckParameters', 'TrainingData3')
 
+
 #NOTE: this only works for match x1 as of now - have to scale up to iterate through all training data
 
 #initializes weight matrices - reshape to ensure compliance
@@ -33,13 +34,10 @@ for train_match in [x1, x2, x3, x4]:
         #converts x1 input to matrix 
         l0 = np.array(train_match, dtype=np.float128).reshape(len(x1), 1)
 
-        #transpose & activation functions corresponding to layer 1
         a1 = tanh(np.dot(w0, l0))
 
-        #activation function for layer 2
         a2 = tanh(np.dot(w1, a1))
 
-        #activation function for output layer
         a3 = sigmoid(np.dot(w2, a2))
 
         #index of where in win a 1 shows up for the corresponding match

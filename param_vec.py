@@ -7,7 +7,7 @@ def input_param(DeckParameters, TrainingData):
     #loads parameters
     df = pd.read_csv(str(DeckParameters)+'.csv', header=None)
 
-    #strips first row corresponding to commander names, which are not directly used
+    #strips first row corresponding to commander names since not directly used
     df = df.drop(df.index[0])
     values = df.values
 
