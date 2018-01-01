@@ -2,7 +2,7 @@ import itertools
 import numpy as np
 import pandas as pd
 
-def input_param(DeckParameters, TrainingData):
+def input_param(DeckParameters, TrainingData, param_segment, number_training_examples):
     #function for returning vectors of deck parameters & winners vector given .csv of parameters & match history data
     #loads parameters
     df = pd.read_csv(str(DeckParameters)+'.csv', header=None)
@@ -47,7 +47,7 @@ def input_param(DeckParameters, TrainingData):
 
     #initialize list of classes (winners) and reshapes to a more usable format (1s corresponding to the winner & 0s otherwise) so that can have a vectorized solution vector 
     winners = np.asarray(train_vec_raw)
-    winners = winners.reshape(4,4)
+    winners = winners.reshape((winners.size//4, 4))
 
     #substitutes winners matrix w/ 1s for position of winning deck and 0s for others
     for match in range(len(winners)):
@@ -60,13 +60,13 @@ def input_param(DeckParameters, TrainingData):
 
     winners = np.delete(winners, [3], axis=1)
 
-    #separates total vector into 4 lists of parameters corresponded to each deck
-    #deckX_param are input vectors of NN
-    length_param = int(len(vectorized_parameters)/4)
-    deck1_param = vectorized_parameters[0:length_param]
-    deck2_param = vectorized_parameters[length_param:2*length_param]
-    deck3_param = vectorized_parameters[2*length_param:3*length_param]
-    deck4_param = vectorized_parameters[3*length_param:4*length_param]
+    #selects segment of unrolled parameter list to feed into NN for training
+    deck_param_size = 7 #number of features for each deck
+    
+    if param_segment == 0:
+        deck_param = vectorized_parameters[0:deck_param_size]
+    elif param_segment > 0:
+        deck_param = vectorized_parameters[i*deck_param_size : (i+1)*deck_param_size]
 
-    return deck1_param, deck2_param, deck3_param, deck4_param, winners, train_mat
+    return deck_param, winners, train_mat
 
