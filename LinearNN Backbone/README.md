@@ -1,6 +1,4 @@
-# MTG-Neural-Network
-
-Goal: develop neural network for predicting outcome of a game of Magic the Gathering
+#Simple linear NN for testing code architecture
 
 Cost function as function of number iterations:
 
