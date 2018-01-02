@@ -36,5 +36,5 @@ The winner is predicted to be: Ghoulcaller Gisa with a confidence of [0.98]
 
 To be improved upon further iterations (subtle ML joke):
 
-  - one needs a very large dataset for training if appreciable accuracy is to be expected. Unfortunately, games of Magic     often take a long take so obtaining such large datasets is difficult. With small training sets, a high level of overfitting   occurs and is effectively unavoidable (unless much more data is available)
+  - one needs a very large dataset for training if appreciable accuracy is to be expected. Unfortunately, games of Magic     often take a long time which makes obtaining large datasets difficult. With small training sets, a high level of overfitting   occurs and is effectively unavoidable (unless much more data is available)
   - the unpacking and formatting of data can be improved upon. As of now, there are several steps that involve converting       back and forth between numpy arrays and python lists.
