@@ -1,5 +1,7 @@
 # MTG-Neural-Network
 
+Update: learned a lot since I initially made this & thus recognize a lot of the mistakes in making this. Regardless, leaving up to have a benchmark for how much I have learned since this.
+
 Goal: develop a neural network to predict the winner of a game of Magic the Gathering using data about the decks.
 
 The program gathers data from two .csv files (blanks included)- one filled with match data for use as training data and the second with parameters about the decks being used. The neural network can be trained to learn about any number of decks for any number of players in a given game by editing lines 7-15 in ```mtg_nn.py```.
